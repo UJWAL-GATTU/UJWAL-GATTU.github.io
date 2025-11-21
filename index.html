@@ -8,7 +8,7 @@
         /* --- CSS VARIABLES & RESET --- */
         :root {
             --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.7); /* Semi-transparent for Glassmorphism */
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
             --accent: #10b981; /* Cyber Green */
@@ -27,6 +27,23 @@
             overflow-x: hidden;
         }
 
+        /* SCROLL PROGRESS BAR */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1001;
+        }
+        #progress-bar {
+            height: 4px;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
         /* BACKGROUND CANVAS */
         #canvas-bg {
             position: fixed;
@@ -38,8 +55,31 @@
             opacity: 0.3;
         }
 
-        a { text-decoration: none; color: var(--accent); transition: 0.3s; }
-        a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+        /* --- NAVIGATION (GLASSMORPHISM) --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo { font-family: var(--font-mono); font-weight: bold; color: var(--accent); font-size: 1.2rem; }
+        .nav-links a {
+            color: var(--text-muted);
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
 
         /* --- LAYOUT UTILITIES --- */
         .container {
@@ -48,23 +88,20 @@
             padding: 0 20px;
         }
 
-        section { margin-bottom: 100px; opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        section { margin-bottom: 120px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         section.visible { opacity: 1; transform: translateY(0); }
 
         h1, h2, h3 { font-family: var(--font-mono); color: var(--text-main); }
         h2 { 
-            font-size: 1.8rem; 
-            margin-bottom: 30px; 
-            display: flex;
-            align-items: center;
+            font-size: 2rem; 
+            margin-bottom: 40px; 
+            display: flex; 
+            align-items: center; 
         }
         h2::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #334155;
-            margin-left: 20px;
+            content: ""; flex: 1; height: 1px; background: #334155; margin-left: 20px;
         }
+        .section-num { color: var(--accent); margin-right: 10px; font-size: 1.5rem; font-family: var(--font-mono); }
 
         /* --- HERO SECTION --- */
         .hero {
@@ -72,280 +109,255 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            opacity: 1; /* Hero is always visible initially */
-            transform: none;
+            opacity: 1; transform: none;
+            padding-top: 60px;
         }
-
-        .hero h1 { font-size: 4rem; margin-bottom: 10px; letter-spacing: -2px; }
-        
+        .hero h1 { font-size: 4.5rem; margin-bottom: 10px; letter-spacing: -2px; line-height: 1.1; }
         .hero .subtitle { 
-            font-size: 1.5rem; 
-            color: var(--accent); 
-            font-family: var(--font-mono);
-            margin-bottom: 20px;
-            min-height: 1.6em; /* Keeps space for typing effect */
+            font-size: 1.8rem; color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px; min-height: 1.6em;
         }
-        
-        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; }
         
         .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-weight: bold;
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            display: inline-block; padding: 14px 32px; border: 1px solid var(--accent); color: var(--accent);
+            border-radius: 4px; font-family: var(--font-mono); font-weight: bold; text-decoration: none;
+            background: rgba(16, 185, 129, 0.05); transition: 0.3s; position: relative; overflow: hidden;
         }
-        .btn::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 0%; height: 100%;
-            background: var(--accent);
-            transition: 0.3s;
-            z-index: -1;
-        }
-        .btn:hover { color: var(--bg-color); box-shadow: 0 0 15px var(--accent-glow); }
-        .btn:hover::before { width: 100%; }
+        .btn:hover { background: rgba(16, 185, 129, 0.15); transform: translateY(-3px); box-shadow: 0 10px 20px -10px var(--accent-glow); }
 
-        /* --- SKILLS GRID --- */
+        /* SCROLL DOWN INDICATOR */
+        .scroll-down {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            animation: bounce 2s infinite; opacity: 0.7;
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        /* --- SKILLS GRID (UI CARDS) --- */
         .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
         }
         .skill-category {
-            background: rgba(30, 41, 59, 0.5);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid transparent;
+            background: var(--card-bg); padding: 25px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(5px);
             transition: 0.3s;
         }
-        .skill-category:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-        .skill-category h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 15px; }
-        
+        .skill-category:hover { border-color: var(--accent); transform: translateY(-5px); }
         .tag {
-            display: inline-block;
-            background: var(--card-bg);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 5px;
-            margin-bottom: 8px;
-            border: 1px solid #334155;
-            transition: 0.2s;
+            display: inline-block; background: rgba(15, 23, 42, 0.8); padding: 6px 14px; border-radius: 20px;
+            font-size: 0.85rem; margin: 0 5px 8px 0; border: 1px solid #334155; color: var(--text-muted); transition: 0.2s;
         }
         .tag:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* --- CARDS (Projects/Exp) --- */
+        /* --- 3D TILT CARDS --- */
         .card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
+            background-color: var(--card-bg); padding: 35px; border-radius: 16px; margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
+            transition: transform 0.1s; /* Fast transition for tilt */
+            backdrop-filter: blur(5px);
         }
-        .card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 10px 30px -15px rgba(0,0,0,0.5);
-        }
-        /* Subtle border glow on left */
+        /* The glowing accent line */
         .card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--accent);
-            opacity: 0.6;
-            transition: 0.3s;
-        }
-        .card:hover::before { opacity: 1; box-shadow: 0 0 10px var(--accent); }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        .date { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); }
-        .card ul { list-style-type: none; margin-top: 15px; }
-        .card li { margin-bottom: 10px; position: relative; padding-left: 25px; color: var(--text-muted); }
-        .card li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 50px 0;
-            font-family: var(--font-mono);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2.8rem; }
-            .card-header { flex-direction: column; align-items: flex-start; }
-            .date { margin-top: 5px; }
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.03), transparent);
+            pointer-events: none;
         }
         
-        /* Cursor effect for typing */
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            background-color: var(--accent);
-            animation: blink 1s infinite;
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
+        .card h3 { font-size: 1.4rem; color: var(--text-main); }
+        .date { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); }
+        .card ul { list-style-type: none; margin-top: 20px; }
+        .card li { margin-bottom: 12px; position: relative; padding-left: 25px; color: var(--text-muted); }
+        .card li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
+
+        /* --- SCROLL TO TOP BTN --- */
+        #scrollTop {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: var(--accent); border: none; border-radius: 50%; color: #0f172a;
+            font-size: 24px; cursor: pointer; display: none; align-items: center; justify-content: center;
+            transition: 0.3s; z-index: 999; box-shadow: 0 0 15px var(--accent-glow);
         }
-        @keyframes blink { 50% { opacity: 0; } }
+        #scrollTop:hover { transform: translateY(-5px); background: #fff; }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 60px 0; font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem; }
+        footer a { margin: 0 15px; position: relative; }
+        footer a::after {
+            content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0;
+            background-color: var(--accent); transition: width 0.3s;
+        }
+        footer a:hover::after { width: 100%; }
+
+        /* MOBILE NAV */
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; color: var(--accent); }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .nav-links { 
+                display: none; position: absolute; top: 70px; right: 0; width: 100%; background: var(--bg-color);
+                flex-direction: column; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--accent);
+            }
+            .nav-links.active { display: flex; }
+            .hamburger { display: block; }
+            .nav-links a { margin: 15px 0; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
     <canvas id="canvas-bg"></canvas>
 
-    <header class="container hero">
-        <p style="color: var(--accent); font-family: var(--font-mono); margin-bottom: 10px;">Hi, my name is</p>
-        <h1>Ujwal Gattu.</h1>
-        <h2 class="subtitle">I <span id="typing-text"></span><span class="cursor">&nbsp;</span></h2>
-        <p>
-            Cybersecurity and Machine Learning student specializing in network analysis, PII detection, and AI-driven security tools. 
-        </p>
-        <div>
-            <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
-            <a href="https://linkedin.com/in/gattuujwal" class="btn" style="margin-left: 10px;">LinkedIn</a>
+    <nav>
+        <div class="logo">UG.</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="nav-links">
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#contact" class="btn" style="padding: 8px 16px; margin-left: 20px; border: 1px solid var(--accent);">Contact</a>
         </div>
+    </nav>
+
+    <header class="container hero">
+        <p style="color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px;">Hi, my name is</p>
+        <h1>Ujwal Gattu.</h1>
+        <h2 class="subtitle">I <span id="typing-text"></span><span class="cursor">|</span></h2>
+        <p>
+            [cite_start]Cybersecurity and Machine Learning student specializing in network analysis, PII detection, and AI-driven security tools. [cite: 4, 5]
+        </p>
+        <div style="margin-top: 20px;">
+            <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
+            <a href="https://github.com/UJWAL-GATTU" target="_blank" class="btn" style="margin-left: 15px; border-color: var(--text-muted); color: var(--text-muted);">GitHub</a>
+        </div>
+        
+        <div class="scroll-down" style="color: var(--text-muted); font-size: 2rem;">↓</div>
     </header>
 
     <section class="container" id="skills">
-        <h2>01. Technical Skills</h2>
+        <h2><span class="section-num">01.</span> Technical Skills</h2>
         <div class="skills-grid">
-            <div class="skill-category">
+            <div class="skill-category tilt-card">
                 <h3>Languages & ML</h3>
                 <div>
-                    <span class="tag">Python</span>
-                    <span class="tag">TensorFlow</span>
-                    <span class="tag">Pandas</span>
-                    <span class="tag">Numpy</span>
-                    <span class="tag">n8n</span>
+                    [cite_start]<span class="tag">Python [cite: 29]</span>
+                    [cite_start]<span class="tag">TensorFlow [cite: 29]</span>
+                    [cite_start]<span class="tag">Pandas [cite: 29]</span>
+                    [cite_start]<span class="tag">Numpy [cite: 29]</span>
+                    [cite_start]<span class="tag">n8n [cite: 29]</span>
                 </div>
             </div>
-            <div class="skill-category">
+            <div class="skill-category tilt-card">
                 <h3>Cybersecurity Tools</h3>
                 <div>
-                    <span class="tag">Burp Suite Pro</span>
-                    <span class="tag">Nessus</span>
-                    <span class="tag">Wireshark</span>
-                    <span class="tag">Nmap</span>
-                    <span class="tag">OWASP</span>
+                    [cite_start]<span class="tag">Burp Suite Pro [cite: 29]</span>
+                    [cite_start]<span class="tag">Nessus [cite: 29]</span>
+                    [cite_start]<span class="tag">Wireshark [cite: 29]</span>
+                    [cite_start]<span class="tag">Nmap [cite: 29]</span>
+                    [cite_start]<span class="tag">OWASP [cite: 30]</span>
                 </div>
             </div>
-            <div class="skill-category">
+            <div class="skill-category tilt-card">
                 <h3>Core Competencies</h3>
                 <div>
-                    <span class="tag">Penetration Testing</span>
-                    <span class="tag">Bug Bounty</span>
-                    <span class="tag">Web App Security</span>
-                    <span class="tag">PII Detection</span>
+                    [cite_start]<span class="tag">Penetration Testing [cite: 18]</span>
+                    [cite_start]<span class="tag">Bug Bounty [cite: 30]</span>
+                    [cite_start]<span class="tag">Web App Security [cite: 30]</span>
+                    [cite_start]<span class="tag">PII Detection [cite: 4]</span>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="container" id="experience">
-        <h2>02. Experience</h2>
+        <h2><span class="section-num">02.</span> Experience</h2>
         
-        <div class="card">
+        <div class="card tilt-card">
             <div class="card-header">
                 <h3>Cybersecurity Intern @ SURETRUST (NGO)</h3>
-                <span class="date">Dec 2024 - July 2025</span>
+                [cite_start]<span class="date">Dec 2024 - July 2025 [cite: 16]</span>
             </div>
             <ul>
-                <li>Performed real-time penetration testing on 20+ IPs to identify vulnerabilities, bugs, and security impacts[cite: 18].</li>
-                <li>Conducted comprehensive vulnerability assessments and exploited identified weaknesses[cite: 19].</li>
-                <li>Enhanced skills in ethical hacking, threat analysis, and security auditing[cite: 20].</li>
+                [cite_start]<li>Performed real-time penetration testing on 20+ IPs to identify vulnerabilities, bugs, and security impacts. [cite: 18]</li>
+                [cite_start]<li>Conducted comprehensive vulnerability assessments and exploited identified weaknesses to test system resilience. [cite: 19]</li>
+                [cite_start]<li>Provided detailed remediation recommendations to patch security flaws. [cite: 19]</li>
+                [cite_start]<li>Enhanced skills in ethical hacking, threat analysis, and security auditing. [cite: 20]</li>
             </ul>
         </div>
     </section>
 
     <section class="container" id="projects">
-        <h2>03. Projects</h2>
+        <h2><span class="section-num">03.</span> Projects</h2>
 
-        <div class="card">
+        <div class="card tilt-card">
             <div class="card-header">
                 <h3>PII Detection System (Smart India Hackathon)</h3>
                 <a href="https://github.com/UJWAL-GATTU" target="_blank" class="date">View Code ↗</a>
             </div>
             <p style="color: var(--text-muted); margin-bottom: 15px;">
-                A Python-based application that identifies Personally Identifiable Information (PII) in text data[cite: 24].
+                [cite_start]A Python-based application that identifies Personally Identifiable Information (PII) in text data. [cite: 22, 24]
             </p>
             <ul>
-                <li>Built from scratch combining pattern matching, NLP, and rule-based detection[cite: 25].</li>
-                <li>Identifies sensitive details like names, emails, and phone numbers to prevent data leakage[cite: 25].</li>
-                <li>Demonstrated innovative approaches to data privacy and security concerns[cite: 26].</li>
+                [cite_start]<li>Built from scratch combining pattern matching, NLP, and rule-based detection. [cite: 25]</li>
+                [cite_start]<li>Identifies sensitive details like names, emails, and phone numbers to prevent data leakage. [cite: 25]</li>
+                [cite_start]<li>Demonstrated innovative approaches to data privacy and security concerns. [cite: 26]</li>
             </ul>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
                 <span class="tag">Python</span>
                 <span class="tag">NLP</span>
-                <span class="tag">Security</span>
+                <span class="tag">Data Privacy</span>
             </div>
         </div>
     </section>
 
     <section class="container" id="education">
-        <h2>04. Education</h2>
-        <div class="card">
+        <h2><span class="section-num">04.</span> Education</h2>
+        <div class="card tilt-card">
             <div class="card-header">
                 <h3>B.Tech in Electronics and Communication</h3>
-                <span class="date">Jan 2022 - Present</span>
+                [cite_start]<span class="date">Jan 2022 - Present [cite: 12]</span>
             </div>
-            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
-            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 8.00 [cite: 13]</p>
+            [cite_start]<p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley [cite: 13]</p>
+            [cite_start]<p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 8.00 [cite: 13]</p>
         </div>
 
-        <div class="card">
+        <div class="card tilt-card">
             <div class="card-header">
                 <h3>Pre-University Course (M.P.C)</h3>
-                <span class="date">Jan 2020 - 2022</span>
+                [cite_start]<span class="date">Jan 2020 - 2022 [cite: 8]</span>
             </div>
-            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
-            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 9.00 [cite: 10]</p>
+            [cite_start]<p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley [cite: 9]</p>
+            [cite_start]<p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 9.00 [cite: 10]</p>
         </div>
     </section>
 
+    <section class="container" id="contact" style="text-align: center; max-width: 600px;">
+        <p style="color: var(--accent); font-family: var(--font-mono);">05. What's Next?</p>
+        <h2 style="justify-content: center; font-size: 2.5rem; margin-bottom: 20px;">Get In Touch</h2>
+        <p style="margin-bottom: 40px; color: var(--text-muted);">
+            I am currently looking for new opportunities in Cybersecurity and AI. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+        </p>
+        <a href="mailto:gattuujwal037@gmail.com" class="btn" style="font-size: 1.1rem;">Say Hello</a>
+    </section>
+
     <footer class="container">
-        <p>Built by Ujwal Gattu. Hydrebad, India[cite: 2].</p>
+        [cite_start]<p>Built by Ujwal Gattu. [cite: 1]</p>
         <div style="margin-top: 10px;">
-            <a href="https://github.com/UJWAL-GATTU" style="margin: 0 10px;">GitHub</a>
-            <a href="https://linkedin.com/in/gattuujwal" style="margin: 0 10px;">LinkedIn</a>
+            [cite_start]<a href="https://github.com/UJWAL-GATTU" target="_blank">GitHub [cite: 2]</a>
+            [cite_start]<a href="https://linkedin.com/in/gattuujwal" target="_blank">LinkedIn [cite: 2]</a>
         </div>
     </footer>
+
+    <button id="scrollTop" onclick="window.scrollTo(0,0)">↑</button>
 
     <script>
         // --- 1. TYPING EFFECT ---
         const textElement = document.getElementById('typing-text');
         const phrases = ["secure networks.", "build AI models.", "analyze data.", "hunt bugs."];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+        let phraseIndex = 0; let charIndex = 0; let isDeleting = false;
 
         function type() {
             const currentPhrase = phrases[phraseIndex];
-            
             if (isDeleting) {
                 textElement.textContent = currentPhrase.substring(0, charIndex - 1);
                 charIndex--;
@@ -353,110 +365,114 @@
                 textElement.textContent = currentPhrase.substring(0, charIndex + 1);
                 charIndex++;
             }
-
             let typeSpeed = isDeleting ? 50 : 100;
-
             if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000; // Pause at end of phrase
-                isDeleting = true;
+                typeSpeed = 2000; isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
+                isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 500;
             }
-
             setTimeout(type, typeSpeed);
         }
         document.addEventListener('DOMContentLoaded', type);
 
-        // --- 2. SCROLL REVEAL ANIMATION ---
-        const observerOptions = { threshold: 0.1 };
+        // --- 2. SCROLL EFFECTS (Progress & Reveal) ---
+        window.onscroll = function() {
+            // Progress Bar
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Show Scroll Top Button
+            const btn = document.getElementById("scrollTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = "flex";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        // Intersection Observer for Fade In
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(sec => observer.observe(sec));
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+        // --- 3. 3D TILT EFFECT FOR CARDS ---
+        const cards = document.querySelectorAll('.tilt-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -5; // Max rotation deg
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
         });
 
-        // --- 3. PARTICLE NETWORK BACKGROUND ---
+        // --- 4. MOBILE MENU ---
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // --- 5. BACKGROUND PARTICLES ---
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let particlesArray;
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            init();
-        });
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.directionX = (Math.random() * 1) - 0.5;
-                this.directionY = (Math.random() * 1) - 0.5;
+                this.dx = (Math.random() - 0.5) * 1;
+                this.dy = (Math.random() - 0.5) * 1;
                 this.size = Math.random() * 2;
-                this.color = '#10b981';
             }
             update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
+                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                this.x += this.dx; this.y += this.dy;
                 this.draw();
             }
             draw() {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.fill();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981'; ctx.fill();
             }
         }
-
         function init() {
             particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 15000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
+            for (let i=0; i < 60; i++) particlesArray.push(new Particle());
         }
-
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
-
-        function connect() {
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                                 + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        ctx.strokeStyle = 'rgba(16, 185, 129, 0.1)';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
+            particlesArray.forEach(p => {
+                p.update();
+                particlesArray.forEach(p2 => {
+                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 100) {
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${1 - dist/100})`;
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
                     }
-                }
-            }
+                });
+            });
         }
-
-        init();
-        animate();
+        init(); animate();
+        window.addEventListener('resize', () => { 
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); 
+        });
     </script>
 </body>
 </html>
