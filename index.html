@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujwal Gattu | Cybersecurity & ML Portfolio</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0f172a;       /* Deep Dark Blue/Slate */
+            --card-bg: #1e293b;        /* Lighter Slate */
+            --text-main: #e2e8f0;      /* White-ish */
+            --text-muted: #94a3b8;     /* Grey */
+            --accent: #10b981;         /* Cyber Green */
+            --font-main: system-ui, -apple-system, sans-serif;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: var(--accent); transition: 0.3s; }
+        a:hover { opacity: 0.8; }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section { margin-bottom: 80px; }
+
+        h1, h2, h3 { font-family: var(--font-mono); color: var(--text-main); }
+        h2 { 
+            font-size: 1.8rem; 
+            margin-bottom: 20px; 
+            border-bottom: 2px solid var(--accent); 
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .hero .subtitle { 
+            font-size: 1.5rem; 
+            color: var(--accent); 
+            font-family: var(--font-mono);
+            margin-bottom: 20px;
+        }
+        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+        }
+        .btn:hover { background: rgba(16, 185, 129, 0.1); }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .skill-category h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 10px; }
+        .tag {
+            display: inline-block;
+            background: var(--card-bg);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #334155;
+        }
+
+        /* --- EXPERIENCE & PROJECTS CARDS --- */
+        .card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .date { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); }
+        .card ul { list-style-type: none; margin-top: 10px; }
+        .card li { margin-bottom: 8px; position: relative; padding-left: 20px; color: var(--text-muted); }
+        .card li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .card-header { flex-direction: column; align-items: flex-start; }
+            .date { margin-top: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="container hero">
+        <p style="color: var(--accent); font-family: var(--font-mono);">Hi, my name is</p>
+        <h1>Ujwal Gattu.</h1>
+        <h2 class="subtitle">I secure networks and build AI solutions.</h2>
+        <p>
+            Cybersecurity and Machine Learning student specializing in network analysis, PII detection, and AI-driven security tools. 
+            Currently focused on building reliable security architectures and ethical hacking.
+        </p>
+        <div>
+            <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
+            <a href="https://linkedin.com/in/gattuujwal" class="btn" style="margin-left: 10px;">LinkedIn</a>
+        </div>
+    </header>
+
+    <section class="container" id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Languages & ML</h3>
+                <div>
+                    <span class="tag">Python</span>
+                    <span class="tag">TensorFlow</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">Numpy</span>
+                    <span class="tag">n8n</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Cybersecurity Tools</h3>
+                <div>
+                    <span class="tag">Burp Suite Pro</span>
+                    <span class="tag">Nessus</span>
+                    <span class="tag">Wireshark</span>
+                    <span class="tag">Nmap</span>
+                    <span class="tag">OWASP</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Core Competencies</h3>
+                <div>
+                    <span class="tag">Penetration Testing</span>
+                    <span class="tag">Bug Bounty</span>
+                    <span class="tag">Web App Security</span>
+                    <span class="tag">PII Detection</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="experience">
+        <h2>Experience</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3>Cybersecurity Intern @ SURETRUST (NGO)</h3>
+                <span class="date">Dec 2024 - July 2025</span>
+            </div>
+            <ul>
+                <li>Performed real-time penetration testing on 20+ IPs to identify vulnerabilities, bugs, and security impacts.</li>
+                <li>Conducted comprehensive vulnerability assessments and exploited identified weaknesses to test system resilience.</li>
+                <li>Provided detailed remediation recommendations to patch security flaws.</li>
+                <li>Enhanced skills in ethical hacking, threat analysis, and security auditing.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="container" id="projects">
+        <h2>Projects</h2>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>PII Detection System (Smart India Hackathon)</h3>
+                <a href="https://github.com/UJWAL-GATTU" target="_blank" class="date">View Code ↗</a>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">
+                Developed an application to identify Personally Identifiable Information (PII) in unstructured text data to prevent data leakage.
+            </p>
+            <ul>
+                <li>Built from scratch using Python, combining pattern matching and Natural Language Processing (NLP).</li>
+                <li>Engineered rule-based detection algorithms to spot sensitive details like names, emails, and addresses.</li>
+                <li>Addressed critical data privacy concerns by creating an automated scanning tool.</li>
+            </ul>
+            <div style="margin-top: 15px;">
+                <span class="tag">Python</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Data Privacy</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="education">
+        <h2>Education</h2>
+        <div class="card">
+            <div class="card-header">
+                <h3>B.Tech in Electronics and Communication</h3>
+                <span class="date">Jan 2022 - Present</span>
+            </div>
+            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
+            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 8.00</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Pre-University Course (M.P.C)</h3>
+                <span class="date">Jan 2020 - 2022</span>
+            </div>
+            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
+            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 9.00</p>
+        </div>
+    </section>
+
+    <footer class="container">
+        <p>Built by Ujwal Gattu. Hydrebad, India.</p>
+        <div style="margin-top: 10px;">
+            <a href="https://github.com/UJWAL-GATTU" style="margin: 0 10px;">GitHub</a>
+            <a href="https://linkedin.com/in/gattuujwal" style="margin: 0 10px;">LinkedIn</a>
+        </div>
+    </footer>
+
+</body>
+</html>
