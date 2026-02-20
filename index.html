@@ -1,16 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ujwal Gattu | Cybersecurity & ML Portfolio</title>
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        .glitch {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ujwal Gattu | Offensive Security Lab</title>
+
+<style>
+:root {
+    --bg-color: #0a0f1c;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #00ffcc;
+    --accent-glow: rgba(0,255,204,0.4);
+    --font-main: system-ui, -apple-system, sans-serif;
+    --font-mono: 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+/* Progress Bar */
+#progress-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 1001;
+}
+#progress-bar {
+    height: 4px;
+    background: var(--accent);
+    width: 0%;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* Background Canvas */
+#canvas-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.25;
+}
+
+/* NAV */
+nav {
+    position: fixed;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    background: rgba(10,15,28,0.6);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    z-index: 1000;
+}
+.logo {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.nav-links a {
+    color: var(--text-muted);
+    margin-left: 30px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.init-text {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin-bottom: 20px;
+}
+
+.glitch {
     position: relative;
     font-size: 4.5rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
+    text-shadow:
+        0 0 8px var(--accent),
+        0 0 20px rgba(0,255,204,0.4);
 }
 
 .glitch::before,
@@ -19,505 +111,223 @@
     position: absolute;
     left: 0;
     width: 100%;
-    overflow: hidden;
 }
 
 .glitch::before {
+    color: #00ffff;
     animation: glitchTop 2s infinite linear alternate-reverse;
-    color: #10b981;
     clip-path: inset(0 0 50% 0);
 }
-
 .glitch::after {
+    color: #00ffaa;
     animation: glitchBottom 1.5s infinite linear alternate-reverse;
-    color: #0ff;
     clip-path: inset(50% 0 0 0);
 }
 
 @keyframes glitchTop {
     0% { transform: translate(0); }
-    20% { transform: translate(-2px, -2px); }
-    40% { transform: translate(2px, 2px); }
-    60% { transform: translate(-1px, 1px); }
-    80% { transform: translate(1px, -1px); }
+    50% { transform: translate(-2px, -2px); }
     100% { transform: translate(0); }
 }
-
 @keyframes glitchBottom {
     0% { transform: translate(0); }
-    20% { transform: translate(2px, 1px); }
-    40% { transform: translate(-2px, -1px); }
-    60% { transform: translate(1px, -2px); }
-    80% { transform: translate(-1px, 2px); }
+    50% { transform: translate(2px, 2px); }
     100% { transform: translate(0); }
 }
-        :root {
-            --bg-color: #0a0f1c;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.4);
-            --font-main: system-ui, -apple-system, sans-serif;
-            --font-mono: 'Courier New', Courier, monospace;
-        }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+.subtitle {
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin: 20px 0;
+    min-height: 1.6em;
+}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+.cursor {
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}
 
-        /* SCROLL PROGRESS BAR */
-        #progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: transparent;
-            z-index: 1001;
-        }
-        #progress-bar {
-            height: 4px;
-            background: var(--accent);
-            width: 0%;
-            box-shadow: 0 0 10px var(--accent);
-        }
+.hero p {
+    max-width: 600px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
 
-        /* BACKGROUND CANVAS */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
-        }
+/* BUTTON */
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    text-decoration: none;
+    background: rgba(0,255,204,0.05);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.btn::before {
+    content: "";
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(0,255,204,0.3), transparent);
+    transition: 0.5s;
+}
+.btn:hover::before { left: 100%; }
+.btn:hover {
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: translateY(-3px);
+}
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: 0.3s;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(15, 23, 42, 0.5);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .logo { font-family: var(--font-mono); font-weight: bold; color: var(--accent); font-size: 1.2rem; }
-        .nav-links a {
-            color: var(--text-muted);
-            margin-left: 30px;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 60px 0;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+}
 
-        /* --- LAYOUT UTILITIES --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        section { margin-bottom: 120px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        section.visible { opacity: 1; transform: translateY(0); }
-
-        h1, h2, h3 { font-family: var(--font-mono); color: var(--text-main); }
-        h2 { 
-            font-size: 2rem; 
-            margin-bottom: 40px; 
-            display: flex; 
-            align-items: center; 
-        }
-        h2::after {
-            content: ""; flex: 1; height: 1px; background: #334155; margin-left: 20px;
-        }
-        .section-num { color: var(--accent); margin-right: 10px; font-size: 1.5rem; font-family: var(--font-mono); }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            opacity: 1; transform: none;
-            padding-top: 60px;
-        }
-        .hero h1 { font-size: 4.5rem; margin-bottom: 10px; letter-spacing: -2px; line-height: 1.1; }
-        .hero .subtitle { 
-            font-size: 1.8rem; color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px; min-height: 1.6em;
-        }
-        .hero p { max-width: 600px; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; }
-        
-        .btn {
-            display: inline-block; padding: 14px 32px; border: 1px solid var(--accent); color: var(--accent);
-            border-radius: 4px; font-family: var(--font-mono); font-weight: bold; text-decoration: none;
-            background: rgba(16, 185, 129, 0.05); transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .btn:hover { background: rgba(16, 185, 129, 0.15); transform: translateY(-3px); box-shadow: 0 10px 20px -10px var(--accent-glow); }
-
-        /* SCROLL DOWN INDICATOR */
-        .scroll-down {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            animation: bounce 2s infinite; opacity: 0.7;
-        }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-
-        /* --- SKILLS GRID --- */
-        .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
-        }
-        .skill-category {
-            background: var(--card-bg); padding: 25px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-        .skill-category:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .tag {
-            display: inline-block; background: rgba(15, 23, 42, 0.8); padding: 6px 14px; border-radius: 20px;
-            font-size: 0.85rem; margin: 0 5px 8px 0; border: 1px solid #334155; color: var(--text-muted); transition: 0.2s;
-        }
-        .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* --- 3D TILT CARDS --- */
-        .card {
-            background-color: var(--card-bg); padding: 35px; border-radius: 16px; margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
-            transition: transform 0.1s;
-            backdrop-filter: blur(5px);
-        }
-        .card::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.03), transparent);
-            pointer-events: none;
-        }
-        
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
-        .card h3 { font-size: 1.4rem; color: var(--text-main); }
-        .date { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); }
-        .card ul { list-style-type: none; margin-top: 20px; }
-        .card li { margin-bottom: 12px; position: relative; padding-left: 25px; color: var(--text-muted); }
-        .card li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
-
-        /* --- SCROLL TO TOP BTN --- */
-        #scrollTop {
-            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
-            background: var(--accent); border: none; border-radius: 50%; color: #0f172a;
-            font-size: 24px; cursor: pointer; display: none; align-items: center; justify-content: center;
-            transition: 0.3s; z-index: 999; box-shadow: 0 0 15px var(--accent-glow);
-        }
-        #scrollTop:hover { transform: translateY(-5px); background: #fff; }
-
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 60px 0; font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem; }
-        footer a { margin: 0 15px; position: relative; }
-        footer a::after {
-            content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0;
-            background-color: var(--accent); transition: width 0.3s;
-        }
-        footer a:hover::after { width: 100%; }
-
-        /* MOBILE NAV */
-        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; color: var(--accent); }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .nav-links { 
-                display: none; position: absolute; top: 70px; right: 0; width: 100%; background: var(--bg-color);
-                flex-direction: column; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--accent);
-            }
-            .nav-links.active { display: flex; }
-            .hamburger { display: block; }
-            .nav-links a { margin: 15px 0; }
-        }
-    </style>
+/* MOBILE */
+@media(max-width:768px){
+    .glitch { font-size: 3rem; }
+}
+</style>
 </head>
+
 <body>
 
-    <div id="progress-container"><div id="progress-bar"></div></div>
+<div id="progress-container"><div id="progress-bar"></div></div>
+<canvas id="canvas-bg"></canvas>
 
-    <canvas id="canvas-bg"></canvas>
+<nav>
+    <div class="logo">&lt;UG /&gt;</div>
+    <div class="nav-links">
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="/writeups/">Writeups</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
 
-    <nav>
-        <div class="logo">&lt;UG /&gt;</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <div class="nav-links">
-            <a href="#skills">Skills</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#education">Education</a>
-            <a href="#contact" class="btn" style="padding: 8px 16px; margin-left: 20px; border: 1px solid var(--accent);">Contact</a>
-        </div>
-    </nav>
+<header class="hero">
+    <a href="/writeups/" class="btn" style="margin-bottom:30px;">Enter Lab →</a>
 
-    <header class="container hero">
-        <a href="/writeups/" class="btn" style="margin-left: 15px;"> Enter Lab → </a>
-        <p style="color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px;"> initializing offensive_security_profile...</p>
-        <h1 class="glitch" data-text="UJWAL GATTU">UJWAL GATTU</h1>
-        <h2 class="subtitle">I <span id="typing-text"></span><span class="cursor">|</span></h2>
-        <p>
-            Building offensive tooling, exploiting misconfigurations, and designing AI-driven security systems.
-        </p>
-        <div style="margin-top: 20px;">
-            <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
-            <a href="https://github.com/UJWAL-GATTU" target="_blank" class="btn" style="margin-left: 15px; border-color: var(--text-muted); color: var(--text-muted);">GitHub</a>
-        </div>
-        
-        <div class="scroll-down" style="color: var(--text-muted); font-size: 2rem;">↓</div>
-    </header>
+    <p class="init-text">initializing offensive_security_profile...</p>
 
-    <section class="container" id="skills">
-        <h2><span class="section-num">01.</span> Technical Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-category tilt-card">
-                <h3>Languages & ML</h3>
-                <div>
-                    <span class="tag">Python</span>
-                    <span class="tag">TensorFlow</span>
-                    <span class="tag">Pandas</span>
-                    <span class="tag">Numpy</span>
-                    <span class="tag">n8n</span>
-                </div>
-            </div>
-            <div class="skill-category tilt-card">
-                <h3>Cybersecurity Tools</h3>
-                <div>
-                    <span class="tag">Burp Suite Pro</span>
-                    <span class="tag">Nessus</span>
-                    <span class="tag">Wireshark</span>
-                    <span class="tag">Nmap</span>
-                    <span class="tag">OWASP</span>
-                </div>
-            </div>
-            <div class="skill-category tilt-card">
-                <h3>Core Competencies</h3>
-                <div>
-                    <span class="tag">Penetration Testing</span>
-                    <span class="tag">Bug Bounty</span>
-                    <span class="tag">Web App Security</span>
-                    <span class="tag">PII Detection</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    <h1 class="glitch" data-text="UJWAL GATTU">UJWAL GATTU</h1>
 
-    <section class="container" id="experience">
-        <h2><span class="section-num">02.</span> Experience</h2>
-        
-        <div class="card tilt-card">
-            <div class="card-header">
-                <h3>Cybersecurity Intern @ SURETRUST (NGO)</h3>
-                <span class="date">Dec 2024 - July 2025</span>
-            </div>
-            <ul>
-                <li>Performed real-time penetration testing on 20+ IPs to identify vulnerabilities, bugs, and security impacts.</li>
-                <li>Conducted comprehensive vulnerability assessments and exploited identified weaknesses to test system resilience.</li>
-                <li>Provided detailed remediation recommendations to patch security flaws.</li>
-                <li>Enhanced skills in ethical hacking, threat analysis, and security auditing.</li>
-            </ul>
-        </div>
-    </section>
+    <h2 class="subtitle">
+        I <span id="typing-text"></span><span class="cursor">|</span>
+    </h2>
 
-    <section class="container" id="projects">
-        <h2><span class="section-num">03.</span> Projects</h2>
+    <p>
+        Building offensive tooling, simulating real-world attacks,
+        and engineering AI-driven security systems.
+    </p>
 
-        <div class="card tilt-card">
-            <div class="card-header">
-                <h3>PII Detection System (Smart India Hackathon)</h3>
-                <a href="https://github.com/UJWAL-GATTU" target="_blank" class="date">View Code ↗</a>
-            </div>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">
-                A Python-based application that identifies Personally Identifiable Information (PII) in text data.
-            </p>
-            <ul>
-                <li>Built from scratch combining pattern matching, NLP, and rule-based detection.</li>
-                <li>Identifies sensitive details like names, emails, and phone numbers to prevent data leakage.</li>
-                <li>Demonstrated innovative approaches to data privacy and security concerns.</li>
-            </ul>
-            <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                <span class="tag">Python</span>
-                <span class="tag">NLP</span>
-                <span class="tag">Data Privacy</span>
-            </div>
-        </div>
-    </section>
+    <div>
+        <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
+        <a href="https://github.com/UJWAL-GATTU" target="_blank" class="btn" style="margin-left:15px;">GitHub</a>
+    </div>
+</header>
 
-    <section class="container" id="education">
-        <h2><span class="section-num">04.</span> Education</h2>
-        <div class="card tilt-card">
-            <div class="card-header">
-                <h3>B.Tech in Electronics and Communication</h3>
-                <span class="date">Jan 2022 - Present</span>
-            </div>
-            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
-            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 8.00</p>
-        </div>
+<footer>
+    Built by Ujwal Gattu.
+</footer>
 
-        <div class="card tilt-card">
-            <div class="card-header">
-                <h3>Pre-University Course (M.P.C)</h3>
-                <span class="date">Jan 2020 - 2022</span>
-            </div>
-            <p style="color: var(--text-muted);">Rajiv Gandhi University of Knowledge and Technologies, RK-Valley</p>
-            <p style="color: var(--accent); font-family: var(--font-mono); margin-top: 5px;">CGPA: 9.00</p>
-        </div>
-    </section>
+<script>
+// Typing Effect
+const textElement = document.getElementById('typing-text');
+const phrases = [
+    "exploit misconfigurations.",
+    "simulate real-world attacks.",
+    "hunt vulnerabilities.",
+    "engineer secure systems."
+];
+let phraseIndex = 0, charIndex = 0, isDeleting = false;
 
-    <section class="container" id="contact" style="text-align: center; max-width: 600px;">
-        <p style="color: var(--accent); font-family: var(--font-mono);">05. What's Next?</p>
-        <h2 style="justify-content: center; font-size: 2.5rem; margin-bottom: 20px;">Get In Touch</h2>
-        <p style="margin-bottom: 40px; color: var(--text-muted);">
-            I am currently looking for new opportunities in Cybersecurity and AI. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-        </p>
-        <a href="mailto:gattuujwal037@gmail.com" class="btn" style="font-size: 1.1rem;">Say Hello</a>
-    </section>
+function type() {
+    const currentPhrase = phrases[phraseIndex];
+    if (isDeleting) {
+        textElement.textContent = currentPhrase.substring(0, charIndex--);
+    } else {
+        textElement.textContent = currentPhrase.substring(0, charIndex++);
+    }
+    let speed = isDeleting ? 50 : 100;
+    if (!isDeleting && charIndex === currentPhrase.length) {
+        speed = 1500;
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+    }
+    setTimeout(type, speed);
+}
+document.addEventListener('DOMContentLoaded', type);
 
-    <footer class="container">
-        <p>Built by Ujwal Gattu.</p>
-        <div style="margin-top: 10px;">
-            <a href="https://github.com/UJWAL-GATTU" target="_blank">GitHub</a>
-            <a href="https://linkedin.com/in/gattuujwal" target="_blank">LinkedIn</a>
-        </div>
-    </footer>
+// Scroll Progress
+window.onscroll = function() {
+    let winScroll = document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById("progress-bar").style.width = (winScroll / height) * 100 + "%";
+};
 
-    <button id="scrollTop" onclick="window.scrollTo(0,0)">↑</button>
+// Background Particles
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    <script>
-        // --- 1. TYPING EFFECT ---
-        const textElement = document.getElementById('typing-text');
-        const phrases = ["secure networks.", "build AI models.", "analyze data.", "hunt bugs."];
-        let phraseIndex = 0; let charIndex = 0; let isDeleting = false;
+class Particle {
+    constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.dx = (Math.random()-0.5)*1;
+        this.dy = (Math.random()-0.5)*1;
+        this.size = Math.random()*2;
+    }
+    update(){
+        if(this.x>canvas.width||this.x<0) this.dx*=-1;
+        if(this.y>canvas.height||this.y<0) this.dy*=-1;
+        this.x+=this.dx; this.y+=this.dy;
+        this.draw();
+    }
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fillStyle='#00ffcc';
+        ctx.fill();
+    }
+}
+let particles=[];
+for(let i=0;i<60;i++) particles.push(new Particle());
 
-        function type() {
-            const currentPhrase = phrases[phraseIndex];
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            let typeSpeed = isDeleting ? 50 : 100;
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000; isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 500;
-            }
-            setTimeout(type, typeSpeed);
-        }
-        document.addEventListener('DOMContentLoaded', type);
-
-        // --- 2. SCROLL EFFECTS (Progress & Reveal) ---
-        window.onscroll = function() {
-            // Progress Bar
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-
-            // Show Scroll Top Button
-            const btn = document.getElementById("scrollTop");
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                btn.style.display = "flex";
-            } else {
-                btn.style.display = "none";
-            }
-        };
-
-        // Intersection Observer for Fade In
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-
-        // --- 3. 3D TILT EFFECT FOR CARDS ---
-        const cards = document.querySelectorAll('.tilt-card');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -5; // Max rotation deg
-                const rotateY = ((x - centerX) / centerX) * 5;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-            });
-        });
-
-        // --- 4. MOBILE MENU ---
-        function toggleMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
-
-        // --- 5. BACKGROUND PARTICLES ---
-        const canvas = document.getElementById('canvas-bg');
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.dx = (Math.random() - 0.5) * 1;
-                this.dy = (Math.random() - 0.5) * 1;
-                this.size = Math.random() * 2;
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
-                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
-                this.x += this.dx; this.y += this.dy;
-                this.draw();
-            }
-            draw() {
+function animate(){
+    requestAnimationFrame(animate);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+        p.update();
+        particles.forEach(p2=>{
+            let dist=Math.hypot(p.x-p2.x,p.y-p2.y);
+            if(dist<100){
+                ctx.strokeStyle=`rgba(0,255,204,${1-dist/100})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#00ffcc'; ctx.fill();
+                ctx.moveTo(p.x,p.y);
+                ctx.lineTo(p2.x,p2.y);
+                ctx.stroke();
             }
-        }
-        function init() {
-            particlesArray = [];
-            for (let i=0; i < 60; i++) particlesArray.push(new Particle());
-        }
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particlesArray.forEach(p => {
-                p.update();
-                particlesArray.forEach(p2 => {
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 100) {
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${1 - dist/100})`;
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-                    }
-                });
-            });
-        }
-        init(); animate();
-        window.addEventListener('resize', () => { 
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); 
         });
-    </script>
+    });
+}
+animate();
+</script>
+
 </body>
 </html>
