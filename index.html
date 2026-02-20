@@ -6,8 +6,53 @@
     <title>Ujwal Gattu | Cybersecurity & ML Portfolio</title>
     <style>
         /* --- CSS VARIABLES & RESET --- */
+        .glitch {
+    position: relative;
+    font-size: 4.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.glitch::before {
+    animation: glitchTop 2s infinite linear alternate-reverse;
+    color: #10b981;
+    clip-path: inset(0 0 50% 0);
+}
+
+.glitch::after {
+    animation: glitchBottom 1.5s infinite linear alternate-reverse;
+    color: #0ff;
+    clip-path: inset(50% 0 0 0);
+}
+
+@keyframes glitchTop {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, -2px); }
+    40% { transform: translate(2px, 2px); }
+    60% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes glitchBottom {
+    0% { transform: translate(0); }
+    20% { transform: translate(2px, 1px); }
+    40% { transform: translate(-2px, -1px); }
+    60% { transform: translate(1px, -2px); }
+    80% { transform: translate(-1px, 2px); }
+    100% { transform: translate(0); }
+}
         :root {
-            --bg-color: #0f172a;
+            --bg-color: #0a0f1c;
             --card-bg: rgba(30, 41, 59, 0.7);
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
@@ -207,7 +252,7 @@
     <canvas id="canvas-bg"></canvas>
 
     <nav>
-        <div class="logo">UG.</div>
+        <div class="logo">&lt;UG /&gt;</div>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <div class="nav-links">
             <a href="#skills">Skills</a>
@@ -219,11 +264,12 @@
     </nav>
 
     <header class="container hero">
-        <p style="color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px;">Hi, my name is</p>
-        <h1>Ujwal Gattu.</h1>
+        <a href="/writeups/" class="btn" style="margin-left: 15px;"> Enter Lab → </a>
+        <p style="color: var(--accent); font-family: var(--font-mono); margin-bottom: 20px;"> initializing offensive_security_profile...</p>
+        <h1 class="glitch" data-text="UJWAL GATTU">UJWAL GATTU</h1>
         <h2 class="subtitle">I <span id="typing-text"></span><span class="cursor">|</span></h2>
         <p>
-            Cybersecurity and Machine Learning student specializing in network analysis, PII detection, and AI-driven security tools.
+            Building offensive tooling, exploiting misconfigurations, and designing AI-driven security systems.
         </p>
         <div style="margin-top: 20px;">
             <a href="mailto:gattuujwal037@gmail.com" class="btn">Get In Touch</a>
@@ -447,7 +493,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#10b981'; ctx.fill();
+                ctx.fillStyle = '#00ffcc'; ctx.fill();
             }
         }
         function init() {
