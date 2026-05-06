@@ -493,17 +493,22 @@
     .writeup-item {
       display: grid;
       grid-template-columns: 120px 1fr auto;
-      align-items: center;
+      align-items: start;
       gap: 32px;
-      padding: 22px 28px;
-      border: 1px solid transparent;
-      border-bottom-color: var(--border);
-      transition: background .2s, border-color .2s;
+      padding: 28px;
+      border: 1px solid var(--border);
+      margin-bottom: 2px;
+      transition: background .2s, border-color .2s, box-shadow .2s;
       text-decoration: none;
+      background: var(--bg3);
+    }
+    .writeup-item:hover {
+      box-shadow: 0 8px 40px rgba(0,255,65,.06);
     }
     .writeup-item:hover {
       background: rgba(0,255,65,.04);
-      border-color: var(--border);
+      border-color: rgba(0,255,65,.3);
+      box-shadow: 0 8px 40px rgba(0,255,65,.06);
     }
     .wu-date { font-size: .72rem; color: var(--green-dim); letter-spacing: 2px; }
     .wu-title {
@@ -525,6 +530,62 @@
     .wu-tag.web { border-color: rgba(0,255,65,.25); color: var(--green-dim); }
     .wu-tag.ctf { border-color: rgba(255,180,0,.25); color: #ffa500; }
     .wu-tag.net { border-color: rgba(100,180,255,.25); color: #64b4ff; }
+    .wu-blog-link {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 28px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      margin-bottom: 24px;
+    }
+    .wu-blog-icon { font-size: 1.4rem; }
+    .wu-blog-label {
+      font-size: .65rem;
+      letter-spacing: 3px;
+      color: var(--green-dim);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .wu-blog-url {
+      font-family: var(--font-code);
+      font-size: .85rem;
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s;
+    }
+    .wu-blog-url:hover { border-color: var(--green); }
+    .wu-main { flex: 1; }
+    .wu-desc {
+      font-family: var(--font-code);
+      font-size: .75rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    .wu-techs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .wu-tech {
+      font-size: .65rem;
+      letter-spacing: 1.5px;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      background: rgba(0,255,65,.03);
+    }
+    .wu-read {
+      font-size: .68rem;
+      letter-spacing: 2px;
+      color: var(--green-dim);
+      margin-top: 4px;
+    }
+    .writeup-item:hover .wu-read { color: var(--green); }
+    .wu-more {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+    }
     .wu-placeholder {
       font-family: var(--font-code);
       font-size: .82rem;
@@ -991,31 +1052,39 @@
     <div class="sec-label">WRITE-UPS</div>
     <div class="sec-line"></div>
   </div>
-  <div class="wu-placeholder reveal">
-    <div>// NO WRITE-UPS PUBLISHED YET</div>
-    <br>
-    <div class="hint">WRITE-UPS COMING SOON — CTF SOLUTIONS, PENTEST NOTES &amp; RESEARCH</div>
-    <br>
-    <div style="font-size:.75rem;color:var(--text-dim)">
-      Replace this section with your actual write-ups once published.<br>
-      Link to your blog, Medium, or GitHub write-ups below.
+  <div class="wu-blog-link reveal">
+    <span class="wu-blog-icon">📡</span>
+    <div>
+      <div class="wu-blog-label">// PUBLISHED ON</div>
+      <a href="https://htb-lab.vercel.app/" target="_blank" class="wu-blog-url">htb-lab.vercel.app</a>
     </div>
   </div>
 
-  <!-- EXAMPLE ENTRIES — uncomment and fill in when you have write-ups:
   <div class="writeups-list reveal">
-    <a href="#" class="writeup-item">
-      <div class="wu-date">2025.01.15</div>
-      <div class="wu-title">RootCipher CTF — Reverse Engineering Challenge Writeup</div>
-      <div class="wu-tag ctf">CTF</div>
-    </a>
-    <a href="#" class="writeup-item">
-      <div class="wu-date">2025.02.10</div>
-      <div class="wu-title">Hackers-Gambit CTF — Web Exploitation Series</div>
-      <div class="wu-tag web">WEB</div>
+    <a href="https://htb-lab.vercel.app/" target="_blank" class="writeup-item">
+      <div class="wu-date">2026.02.23</div>
+      <div class="wu-main">
+        <div class="wu-title">HTB Season 10 — Interpreter</div>
+        <div class="wu-desc">Exploiting CVE-2023-43208 (XStream RCE) on Mirth Connect 4.4.0, SQL credential extraction, PBKDF2 hash cracking with Hashcat, and SSTI-based privilege escalation via hex-encoded payloads.</div>
+        <div class="wu-techs">
+          <span class="wu-tech">CVE-2023-43208</span>
+          <span class="wu-tech">XStream Deserialization</span>
+          <span class="wu-tech">SSTI RCE</span>
+          <span class="wu-tech">Hashcat</span>
+          <span class="wu-tech">MySQL</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0">
+        <div class="wu-tag pwn">RCE</div>
+        <div class="wu-tag web">SSTI</div>
+        <div class="wu-read">READ →</div>
+      </div>
     </a>
   </div>
-  -->
+
+  <div class="wu-more reveal">
+    <a href="https://htb-lab.vercel.app/" target="_blank" class="btn btn-outline" style="font-size:.72rem;padding:12px 28px;">VIEW ALL WRITE-UPS ↗</a>
+  </div>
 </section>
 
 <!-- CERTIFICATES -->
